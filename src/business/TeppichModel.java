@@ -1,77 +1,43 @@
 package business;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class TeppichModel {
-	
-    private String artikelnummer;
-    private String kategorie;
-    private int breite;
-    private int laenge;
-    private String[] farben;
-    
-    public TeppichModel(String artikelnummer, String kategorie, int breite,
-       	int laenge, String[] farben){
-    	this.artikelnummer = artikelnummer;
-      	this.kategorie = kategorie;
-       	this.breite = breite;
-       	this.laenge = laenge;
-       	this.farben = farben;
+    private Teppich teppich;  // Einzelnes Attribut für einen Teppich (kann null sein)
+
+    // Getter für den Teppich
+    public Teppich getTeppich() {
+        return teppich;
     }
 
-	public String getArtikelnummer() {
-		return artikelnummer;
-	}
+    // Erzeugt einen neuen Teppich aus Eingabedaten (delegiert vom Controller)
+    public void nehmeTeppichAuf(String artikelnummer, String kategorie, int breite, int laenge, String[] farben) throws Exception {
+        this.teppich = new Teppich(artikelnummer, kategorie, breite, laenge, farben);
+    }
 
-	public void setArtikelnummer(String artikelnummer) {
-		this.artikelnummer = artikelnummer;
-	}
+    // Liest einen Teppich aus einer Datei (csv oder txt)
+    public void leseAusDatei(String typ) throws IOException, Exception {
+        if ("csv".equals(typ)) {
+            BufferedReader ein = new BufferedReader(new FileReader("Teppich.csv"));
+            String[] zeile = ein.readLine().split(";");
+            this.teppich = new Teppich(zeile[0], zeile[1], Integer.parseInt(zeile[2]), Integer.parseInt(zeile[3]), zeile[4].split("_"));
+            ein.close();
+        } else {
+            throw new UnsupportedOperationException("Noch nicht implementiert!");
+        }
+    }
 
-	public String getKategorie() {
-		return kategorie;
-	}
-
-	public void setKategorie(String kategorie) {
-		this.kategorie = kategorie;
-	}
-
-	public int getBreite() {
-		return breite;
-	}
-
-	public void setBreite(int breite) {
-		this.breite = breite;
-	}
-
-	public int getLaenge() {
-		return laenge;
-	}
-
-	public void setLaenge(int laenge) {
-		this.laenge = laenge;
-	}
-
-	public String[] getFarben() {
-		return farben;
-	}
-
-	public void setFarben(String[] farben) {
-		this.farben = farben;
-	}
-	
- 	public String getFarbenAlsString(char trenner) {
-		String ergebnis = "";
-		int i = 0;
-		for(i = 0; i < this.getFarben().length - 1; i++) {
-			ergebnis = ergebnis + this.getFarben()[i] + trenner; 
-		}
-		return ergebnis	+ this.getFarben()[i];
-	}
-	
-	public String gibTeppichZurueck(char trenner){
-  		return this.getArtikelnummer() + trenner 
-  			+ this.getKategorie() + trenner
-  			+ this.getBreite() + trenner
-  		    + this.getLaenge() + trenner + "\n"
-  		    + this.getFarbenAlsString(trenner) + "\n";
-  	}
+    // Schreibt den aktuellen Teppich in eine CSV-Datei
+    public void schreibeInCsvDatei() throws IOException, Exception {
+        if (this.teppich == null) {
+            throw new Exception("Kein Teppich zum Speichern vorhanden!");
+        }
+        BufferedWriter aus = new BufferedWriter(new FileWriter("TeppicheAusgabe.csv", true));
+        aus.write(teppich.gibTeppichZurueck(';'));
+        aus.close();
+    }
 }
-

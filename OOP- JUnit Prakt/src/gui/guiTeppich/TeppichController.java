@@ -34,36 +34,11 @@ public class TeppichController implements Observer
     }
 
     private void initListener() {
-        view.getBtnEingabe().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                nehmeTeppichAuf();
-            }
-        });
-        view.getBtnAnzeige().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                zeigeTeppicheAn();
-            }
-        });
-        view.getMnItmCsvImpkategorie().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                leseAusDatei("csv");
-            }
-        });
-        view.getMnItmTxtImpkategorie().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                leseAusDatei("txt");
-            }
-        });
-        view.getMnItmCsvExpkategorie().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                schreibeInCsvDatei();
-            }
-        });
+        view.getBtnEingabe().setOnAction(e -> nehmeTeppichAuf());
+        view.getBtnAnzeige().setOnAction(e -> nehmeTeppichAuf());
+        view.getMnItmCsvImpkategorie().setOnAction(e -> leseAusDatei("csv"));
+        view.getMnItmTxtImpkategorie().setOnAction(e -> leseAusDatei("txt"));
+        view.getMnItmCsvExpkategorie().setOnAction(e -> schreibeInCsvDatei());
     }
 
     private void nehmeTeppichAuf() {

@@ -15,6 +15,10 @@ public class Teppich {
        	this.breite = breite;
        	this.laenge = laenge;
        	this.farben = farben;
+       	if(farben == null)
+       	{
+       		throw new IllegalArgumentException();
+       	}
     }
 
 	public String getArtikelnummer() {

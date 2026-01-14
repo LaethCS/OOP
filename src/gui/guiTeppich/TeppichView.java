@@ -1,8 +1,10 @@
 package gui.guiTeppich;
 
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import ownUtil.MeldungsfensterAnzeiger;
 
 public class TeppichView {
     // Attribute der grafischen Oberfläche (aus Original extrahiert)
@@ -110,4 +112,12 @@ public class TeppichView {
     public MenuItem getMnItmCsvImpkategorie() { return mnItmCsvImpkategorie; }
     public MenuItem getMnItmTxtImpkategorie() { return mnItmTxtImpkategorie; }
     public MenuItem getMnItmCsvExpkategorie() { return mnItmCsvExpkategorie; }
+    
+    public void zeigeInformationsfensterAn(String meldung) {
+        new MeldungsfensterAnzeiger(AlertType.INFORMATION, "Information", meldung).zeigeMeldungsfensterAn();
+    }
+
+    public void zeigeFehlermeldungsfensterAn(String meldung) {
+        new MeldungsfensterAnzeiger(AlertType.ERROR, "Fehler", meldung).zeigeMeldungsfensterAn();
+    }
 }

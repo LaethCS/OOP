@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import ownUtil.MeldungsfensterAnzeiger;
 import ownUtil.Observer;
 
+
 public class TeppichController implements Observer
 {
     private TeppichView view;
@@ -49,9 +50,9 @@ public class TeppichController implements Observer
                 Integer.parseInt(view.getTxtBreite().getText()),
                 Integer.parseInt(view.getTxtLaenge().getText()),
                 view.getTxtFarben().getText().split(";"));
-            zeigeInformationsfensterAn("Der Teppich wurde aufgenommen!");
+            view.zeigeInformationsfensterAn("Der Teppich wurde aufgenommen!");
         } catch (Exception exc) {
-            zeigeFehlermeldungsfensterAn(exc.getMessage());
+        	view.zeigeFehlermeldungsfensterAn(exc.getMessage());
         }
     }
 
@@ -71,7 +72,7 @@ public class TeppichController implements Observer
             
         } else 
         {
-            zeigeInformationsfensterAn("Bisher wurde kein Teppich aufgenommen!");
+        	view.zeigeInformationsfensterAn("Bisher wurde kein Teppich aufgenommen!");
         }
     }
 
@@ -80,35 +81,31 @@ public class TeppichController implements Observer
         try 
         {
             model.leseAusDatei(typ);
-            zeigeInformationsfensterAn("Der Teppich wurde gelesen!");
+            view.zeigeInformationsfensterAn("Der Teppich wurde gelesen!");
         } catch (UnsupportedOperationException e) {
-            zeigeInformationsfensterAn(e.getMessage());
+        	view.zeigeInformationsfensterAn(e.getMessage());
         } catch (IOException exc) {
-            zeigeFehlermeldungsfensterAn("IOException beim Lesen!");
+        	view.zeigeFehlermeldungsfensterAn("IOException beim Lesen!");
         } catch (Exception exc) {
-            zeigeFehlermeldungsfensterAn("Unbekannter Fehler beim Lesen!");
+        	view.zeigeFehlermeldungsfensterAn("Unbekannter Fehler beim Lesen!");
             exc.printStackTrace();
         }
     }
+    
+    
 
     private void schreibeInCsvDatei() {
         try {
             model.schreibeInCsvDatei();
-            zeigeInformationsfensterAn("Der Teppich wurde gespeichert!");
+            view.zeigeInformationsfensterAn("Der Teppich wurde gespeichert!");
         } catch (IOException exc) {
-            zeigeFehlermeldungsfensterAn("IOException beim Speichern!");
+        	view.zeigeFehlermeldungsfensterAn("IOException beim Speichern!");
         } catch (Exception exc) {
-            zeigeFehlermeldungsfensterAn("Unbekannter Fehler beim Speichern!");
+        	view.zeigeFehlermeldungsfensterAn("Unbekannter Fehler beim Speichern!");
         }
     }
 
-    private void zeigeInformationsfensterAn(String meldung) {
-        new MeldungsfensterAnzeiger(AlertType.INFORMATION, "Information", meldung).zeigeMeldungsfensterAn();
-    }
-
-    private void zeigeFehlermeldungsfensterAn(String meldung) {
-        new MeldungsfensterAnzeiger(AlertType.ERROR, "Fehler", meldung).zeigeMeldungsfensterAn();
-    }
+    
 
 	@Override
 	public void update() 
